@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ATELIER — Modern Fashion, Copenhagen</title>
+<meta name="description" content="ATELIER is a Copenhagen fashion house. Explore the new season collection: minimal, considered, made to last." />
+<style>
+  :root{
+    --bg:#ffffff; --ink:#111111; --muted:#8a8a8a; --line:#eaeaea;
+    --accent:#b8945f; --maxw:1400px;
+    --f-serif:"Times New Roman",Georgia,serif;
+    --f-sans:-apple-system,"Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--f-sans);
+    font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  img{display:block;width:100%;height:100%;object-fit:cover}
+
+  /* ---------- Header ---------- */
+  header{position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 28px;mix-blend-mode:difference;color:#fff}
+  .brand{font-family:var(--f-serif);font-size:22px;letter-spacing:.28em}
+  nav{display:flex;gap:26px;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+  nav a{opacity:.85;transition:opacity .25s}
+  nav a:hover{opacity:1}
+  .burger{display:none;font-size:12px;letter-spacing:.18em;text-transform:uppercase;background:none;border:0;color:inherit;cursor:pointer}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;height:100vh;min-height:560px;overflow:hidden}
+  .hero .media{position:absolute;inset:0}
+  .hero video,.hero .fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .fallback{background:
+    linear-gradient(rgba(0,0,0,.15),rgba(0,0,0,.25)),
+    url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1600&auto=format&fit=crop") center/cover}
+  .hero .caption{position:absolute;left:28px;bottom:34px;color:#fff;max-width:640px}
+  .hero .eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;opacity:.85;margin-bottom:14px}
+  .hero h1{font-family:var(--f-serif);font-weight:400;font-size:clamp(40px,7vw,104px);line-height:.98;letter-spacing:-.01em}
+  .hero .cta{display:inline-block;margin-top:26px;font-size:12px;letter-spacing:.2em;
+    text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.6);padding-bottom:4px}
+  .scroll-hint{position:absolute;right:28px;bottom:34px;color:#fff;font-size:11px;
+    letter-spacing:.2em;text-transform:uppercase;opacity:.8;writing-mode:vertical-rl}
+
+  /* ---------- Marquee ---------- */
+  .marquee{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    overflow:hidden;white-space:nowrap;padding:14px 0}
+  .marquee span{display:inline-block;font-family:var(--f-serif);font-size:20px;
+    letter-spacing:.1em;padding-right:60px;animation:slide 22s linear infinite}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* ---------- Featured collection ---------- */
+  .section{max-width:var(--maxw);margin:0 auto;padding:90px 28px}
+  .section-head{display:flex;align-items:flex-end;justify-content:space-between;
+    margin-bottom:44px;flex-wrap:wrap;gap:16px}
+  .section-head h2{font-family:var(--f-serif);font-weight:400;font-size:clamp(28px,4vw,52px)}
+  .section-head p{color:var(--muted);max-width:340px}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .card{cursor:pointer}
+  .card .frame{position:relative;aspect-ratio:3/4;overflow:hidden;background:#f4f4f4}
+  .card .frame img{transition:transform .8s cubic-bezier(.2,.8,.2,1)}
+  .card:hover .frame img{transform:scale(1.05)}
+  .tag{position:absolute;top:12px;left:12px;background:#fff;font-size:10px;
+    letter-spacing:.14em;text-transform:uppercase;padding:5px 9px}
+  .card .meta{display:flex;justify-content:space-between;margin-top:12px;font-size:13px}
+  .card .meta .name{letter-spacing:.02em}
+  .card .meta .price{color:var(--muted)}
+
+  /* ---------- Editorial split ---------- */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:0;align-items:stretch}
+  .split .img{aspect-ratio:4/5;background:#f4f4f4}
+  .split .txt{display:flex;flex-direction:column;justify-content:center;padding:0 60px}
+  .split .txt h3{font-family:var(--f-serif);font-weight:400;font-size:clamp(26px,3.4vw,44px);margin-bottom:18px}
+  .split .txt p{color:var(--muted);margin-bottom:26px;max-width:420px}
+  .btn{align-self:flex-start;font-size:12px;letter-spacing:.2em;text-transform:uppercase;
+    border:1px solid var(--ink);padding:14px 28px;transition:.25s}
+  .btn:hover{background:var(--ink);color:#fff}
+
+  /* ---------- Newsletter + footer ---------- */
+  .news{text-align:center;padding:100px 28px;border-top:1px solid var(--line)}
+  .news h2{font-family:var(--f-serif);font-weight:400;font-size:clamp(26px,4vw,46px);margin-bottom:16px}
+  .news p{color:var(--muted);margin-bottom:28px}
+  .news form{display:flex;max-width:440px;margin:0 auto;border-bottom:1px solid var(--ink)}
+  .news input{flex:1;border:0;padding:12px 4px;font-size:14px;outline:none}
+  .news button{border:0;background:none;cursor:pointer;font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+  footer{border-top:1px solid var(--line);padding:48px 28px;display:flex;
+    justify-content:space-between;flex-wrap:wrap;gap:24px;color:var(--muted);font-size:13px}
+  footer .cols{display:flex;gap:56px;flex-wrap:wrap}
+  footer h4{color:var(--ink);font-size:11px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:12px}
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- Responsive / phone ---------- */
+  @media(max-width:900px){
+    .grid{grid-template-columns:repeat(2,1fr);gap:14px}
+    .split{grid-template-columns:1fr}
+    .split .txt{padding:40px 28px}
+    .scroll-hint{display:none}
+  }
+  @media(max-width:640px){
+    header{padding:16px 18px}
+    nav{display:none}
+    .burger{display:block}
+    .section{padding:60px 18px}
+    .hero .caption{left:18px;bottom:26px}
+    .news{padding:70px 18px}
+    footer{padding:36px 18px}
+  }
+</style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="#">ATELIER</a>
+    <nav>
+      <a href="#featured">Shop</a>
+      <a href="#collection">Collections</a>
+      <a href="#story">About</a>
+      <a href="#news">Journal</a>
+      <a href="#">Cart (0)</a>
+    </nav>
+    <button class="burger" aria-label="Menu">Menu</button>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="media">
+      <!-- Drop in a real campaign video by setting the <source> src -->
+      <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1600&auto=format&fit=crop">
+        <source src="" type="video/mp4" />
+      </video>
+      <div class="fallback" aria-hidden="true"></div>
+    </div>
+    <div class="caption">
+      <div class="eyebrow">Autumn / Winter 2026</div>
+      <h1>Considered<br>by design.</h1>
+      <a class="cta" href="#featured">Explore the collection</a>
+    </div>
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <span>New Season &nbsp;·&nbsp; Made in Europe &nbsp;·&nbsp; Free Shipping over €150 &nbsp;·&nbsp; Considered by design &nbsp;·&nbsp; New Season &nbsp;·&nbsp; Made in Europe &nbsp;·&nbsp; Free Shipping over €150 &nbsp;·&nbsp; Considered by design &nbsp;·&nbsp;</span>
+  </div>
+
+  <!-- FEATURED COLLECTION -->
+  <section class="section" id="featured">
+    <div class="section-head reveal">
+      <h2>Featured collection</h2>
+      <p>A tightly edited selection from the new season — quiet silhouettes, natural fibres, made to last.</p>
+    </div>
+    <div class="grid" id="product-grid"></div>
+  </section>
+
+  <!-- EDITORIAL SPLIT -->
+  <section class="split reveal" id="story">
+    <div class="img"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop" alt="Model wearing the ATELIER autumn collection" /></div>
+    <div class="txt">
+      <h3>The house of quiet luxury</h3>
+      <p>Founded in Copenhagen, ATELIER makes clothing designed to be worn for years, not seasons. Every piece is cut from responsibly sourced materials in small European runs.</p>
+      <a class="btn" href="#">Our story</a>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="news reveal" id="news">
+    <h2>Join the atelier</h2>
+    <p>Early access to new arrivals, private events and the seasonal journal.</p>
+    <form onsubmit="event.preventDefault();this.querySelector('input').value='Thank you';">
+      <input type="email" placeholder="Email address" aria-label="Email address" required />
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+
+  <footer>
+    <div class="cols">
+      <div><h4>Shop</h4><ul><li>New in</li><li>Womenswear</li><li>Menswear</li><li>Accessories</li></ul></div>
+      <div><h4>Company</h4><ul><li>About</li><li>Journal</li><li>Stores</li><li>Careers</li></ul></div>
+      <div><h4>Help</h4><ul><li>Shipping</li><li>Returns</li><li>Size guide</li><li>Contact</li></ul></div>
+    </div>
+    <div>© 2026 ATELIER — Copenhagen. All rights reserved.</div>
+  </footer>
+
+<script>
+  // Featured products (in the real app this comes from the Node/MongoDB API)
+  const products = [
+    {name:"Wool Overcoat",  price:"€480", tag:"New",     img:"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800&auto=format&fit=crop"},
+    {name:"Silk Slip Dress", price:"€260", tag:"",        img:"https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=800&auto=format&fit=crop"},
+    {name:"Tailored Trouser",price:"€190", tag:"",        img:"https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=800&auto=format&fit=crop"},
+    {name:"Cashmere Knit",   price:"€220", tag:"Limited", img:"https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=800&auto=format&fit=crop"},
+    {name:"Linen Shirt",     price:"€140", tag:"",        img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=800&auto=format&fit=crop"},
+    {name:"Leather Boot",    price:"€340", tag:"New",     img:"https://images.unsplash.com/photo-1608256246200-53e635b5b65f?q=80&w=800&auto=format&fit=crop"},
+    {name:"Structured Bag",  price:"€390", tag:"",        img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop"},
+    {name:"Pleated Skirt",   price:"€180", tag:"",        img:"https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=800&auto=format&fit=crop"},
+  ];
+  const grid = document.getElementById('product-grid');
+  grid.innerHTML = products.map(p => `
+    <article class="card">
+      <div class="frame">${p.tag?`<span class="tag">${p.tag}</span>`:''}<img src="${p.img}" alt="${p.name}" loading="lazy"/></div>
+      <div class="meta"><span class="name">${p.name}</span><span class="price">${p.price}</span></div>
+    </article>`).join('');
+
+  // Scroll reveal
+  const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Self-hosted open-source fonts (as used on the reference): BluuNext display
+   serif + Sporting Grotesque for UI. */
+@font-face {
+  font-family: 'BluuNext';
+  src: url('/fonts/bluunext-bold.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Sporting Grotesque';
+  src: url('/fonts/sporting-grotesque-regular.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Sporting Grotesque';
+  src: url('/fonts/sporting-grotesque-bold.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+:root { color-scheme: light; }
+html { scroll-behavior: smooth; }
+body {
+  background: #fff;
+  color: #000;
+  font-family: 'Sporting Grotesque', -apple-system, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Lenis smooth scroll: let it drive scrolling; disable native smooth so they
+   don't fight. */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* --- Scroll reveal (fade + rise) ---
+   Hidden start-state applies ONLY when JS is available (html.js), so no-JS and
+   crawlers always see the content. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- Hero load-in --- */
+.js .load-up {
+  opacity: 0;
+  transform: translateY(18px);
+  animation: loadUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes loadUp { to { opacity: 1; transform: none; } }
+
+/* --- Scroll cue --- */
+@keyframes scrollCue {
+  0% { transform: translateY(0); opacity: 0.9; }
+  50% { transform: translateY(6px); opacity: 0.35; }
+  100% { transform: translateY(0); opacity: 0.9; }
+}
+.scroll-cue { animation: scrollCue 1.8s ease-in-out infinite; }
+
+/* --- Editorial inertia gallery (reference: lassepedersen.biz) --- */
+.gallery-vp {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.gallery-vp::-webkit-scrollbar { display: none; }
+.slider-track::-webkit-scrollbar { display: none; }
+.slider-track { scrollbar-width: none; }
+.drag-cursor { transition: opacity 0.3s ease, width 0.2s ease, height 0.2s ease; }
+
+/* Reference easing (easeOutQuart) — used site-wide on lassepedersen.biz. */
+:root { --ease: cubic-bezier(0.165, 0.84, 0.44, 1); }
+
+/* Images are a rigid edge-to-edge filmstrip that just translates (no parallax,
+   no scale) — matching the measured reference motion. A short fade on first
+   paint only, to mask lazy-loading. */
+.js .panel .anim-img { animation: imgIn 0.6s var(--ease) both; }
+@keyframes imgIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* --- Editorial slider — ported 1:1 from the original theme geometry ---
+   The strip is a JS-translated track of fixed-width slots; each project is a
+   "bunk" of three images sized by aspect ratio (height in vh, width auto) and
+   positioned by translateX offsets in vh. DOM order is [side, MAIN, side];
+   the middle child is the full-height hero. */
+.ed { position: relative; height: 100svh; width: 100%; overflow: hidden; background: #fff; }
+.ed-track { position: absolute; top: 0; left: 0; height: 100%; will-change: transform; }
+.ed-slide { position: absolute; top: 0; height: 100%; }
+.bunk-elements { position: relative; width: 100%; height: 100%; }
+.bunk .be {
+  position: absolute; bottom: 0; width: auto; background: #f1f1f1;
+  transform-origin: 50% 100%;
+}
+.bunk .be > img { display: block; height: 100%; width: auto; }
+/* Image reveal: each image fades up from its placeholder, staggered. */
+.js .bunk .be > img { opacity: 0; transition: opacity 0.8s var(--ease); }
+.js .bunk .be.show > img { opacity: 1; }
+
+@media (min-width: 768px) {
+  .ed-slide { width: 150vh; }
+  .bunk .be:nth-child(2) { z-index: 1; }
+  .bunk .be:nth-child(1) { z-index: 2; }
+  .bunk .be:nth-child(3) { z-index: 3; }
+  .bunk-aa .be:nth-child(1){ height:53vh; left:0; transform:translateX(0); z-index:3 }
+  .bunk-aa .be:nth-child(2){ height:100vh; left:51vh }
+  .bunk-aa .be:nth-child(3){ height:32vh; left:78vh; transform:translateX(2%); z-index:2 }
+  .bunk-a .be:nth-child(1){ height:53vh; left:50%; transform:translateX(-47vh) }
+  .bunk-a .be:nth-child(2){ height:100vh; left:50%; transform:translateX(-50%) }
+  .bunk-a .be:nth-child(3){ height:32vh; right:50%; transform:translateX(50vh) }
+  .bunk-b .be:nth-child(1){ height:32vh; left:50%; transform:translateX(-52vh) }
+  .bunk-b .be:nth-child(2){ height:100vh; left:49%; transform:translateX(-50%) }
+  .bunk-b .be:nth-child(3){ height:53vh; right:50%; transform:translateX(46vh) }
+  .bunk-c .be:nth-child(1){ height:32vh; left:50%; transform:translateX(4vh) }
+  .bunk-c .be:nth-child(2){ height:100vh; left:44%; transform:translateX(-50%) }
+  .bunk-c .be:nth-child(3){ height:53vh; left:50%; transform:translateX(15vh) }
+  .bunk-d .be:nth-child(1){ height:32vh; left:50%; transform:translateX(-18vh) }
+  .bunk-d .be:nth-child(2){ height:100vh; left:61%; transform:translateX(-50%) }
+  .bunk-d .be:nth-child(3){ height:53vh; left:50%; transform:translateX(-47vh) }
+  .bunk-e .be:nth-child(1){ height:32vh; left:50%; transform:translateX(41vh) }
+  .bunk-e .be:nth-child(2){ height:100vh; left:44%; transform:translateX(-50%) }
+  .bunk-e .be:nth-child(3){ height:53vh; left:50%; transform:translateX(14vh) }
+  .bunk-f .be:nth-child(1){ height:32vh; left:50%; transform:translateX(-44vh) }
+  .bunk-f .be:nth-child(2){ height:100vh; left:65%; transform:translateX(-50%) }
+  .bunk-f .be:nth-child(3){ height:53vh; left:50%; transform:translateX(-36vh) }
+}
+@media (max-width: 767px) {
+  .ed-slide { width: 100vw; }
+  .bunk .be:nth-child(1), .bunk .be:nth-child(3) { display: none; }
+  .bunk .be:nth-child(2) { height: 62%; left: 13vw; bottom: 12%; transform: none; }
+}
+
+/* --- The single fixed title (original #slider-info) ---
+   A centred-left serif name that swaps to the active project; its words fade
+   up on each change. */
+.ed-info {
+  position: fixed; left: 0; top: 50vh; z-index: 51; width: 100%;
+  padding-left: 3.4vw; pointer-events: none;
+  transform: translateY(-50%);
+  font-family: 'BluuNext', Georgia, serif; line-height: 0.9;
+  text-transform: capitalize; letter-spacing: -0.5px;
+  font-size: 37.5px; color: #000;
+}
+@media (min-width: 641px) { .ed-info { font-size: 50px; } }
+.ed-info .word { display: inline-block; white-space: nowrap; opacity: 0; transform: translateY(0.5em);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+.ed-info .word:not(:last-child) { margin-right: 0.28em; }
+.ed-info.in .word { opacity: 1; transform: none; }
+.ed-info.in .word:nth-child(2) { transition-delay: 0.05s; }
+.ed-info.in .word:nth-child(3) { transition-delay: 0.10s; }
+.ed-info.in .word:nth-child(4) { transition-delay: 0.15s; }
+.ed-info.in .word:nth-child(n+5) { transition-delay: 0.20s; }
+.ed-info sup { font-size: 50%; vertical-align: top; margin-left: 2px; opacity: 0.6; }
+.ed-info .cat { display: block; font-family: 'Sporting Grotesque', sans-serif;
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em; margin-top: 14px; opacity: 0.55; }
+
+/* --- Index / length counter (original .slider-ui) --- */
+.ed-ui {
+  position: absolute; left: 5vw; bottom: 25px; z-index: 89; pointer-events: none;
+  display: flex; align-items: center; white-space: nowrap;
+  font-family: 'BluuNext', Georgia, serif; font-size: 20px; color: #000;
+}
+@media (min-width: 789px) { .ed-ui { bottom: 50px; } }
+.ed-ui .box { width: 12px; height: 12px; background: #000; margin: 0 7.5px; }
+.ed-ui .len { opacity: 0.35; }
+
+/* UI load-in: header nav, counter and cue slide in from the right after the name
+   (staggered), matching the reference's intro-done sequence. */
+@keyframes uiIn {
+  from { opacity: 0; transform: translateX(22px); }
+  to { opacity: 1; transform: none; }
+}
+.js .ui-in { animation: uiIn 0.9s var(--ease) both; }
+.js .ui-in.u1 { animation-delay: 0.45s; }
+.js .ui-in.u2 { animation-delay: 0.55s; }
+.js .ui-in.u3 { animation-delay: 0.65s; }
+.js .ui-in.u4 { animation-delay: 0.75s; }
+.js .ui-in.u5 { animation-delay: 0.9s; }
+
+/* Intro brand fades in on white (gray -> black), matching the recorded load. */
+.js .brand-in { opacity: 0; animation: brandIn 1.3s var(--ease) 0.15s forwards; }
+.js .brand-in.b2 { animation-delay: 0.35s; }
+.js .brand-in.b3 { animation-delay: 0.5s; }
+@keyframes brandIn { to { opacity: 1; } }
+
+/* A drag cursor replaces the native one over the gallery; links keep their
+   pointer so the click affordance is never lost. */
+@media (pointer: fine) and (min-width: 768px) and (prefers-reduced-motion: no-preference) {
+  .ed, .ed *:not(a):not(button) { cursor: none; }
+}
+
+/* Accessibility: honour reduced-motion. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .reveal,
+  .js .reveal.is-visible { opacity: 1; transform: none; transition: none; }
+  .js .load-up { opacity: 1; transform: none; animation: none; }
+  .scroll-cue { animation: none; }
+  .js .panel .anim-img { animation: none; opacity: 1; }
+  .js .ui-in { animation: none; opacity: 1; transform: none; }
+  .js .brand-in { animation: none; opacity: 1; }
+}

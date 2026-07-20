@@ -1,0 +1,25 @@
+{
+  "name": "fashion-store",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SEO-first fashion storefront — Next.js web + Node/TS API + MongoDB, in an Nx monorepo.",
+  "workspaces": ["apps/*", "libs/*"],
+  "scripts": {
+    "dev": "nx run-many -t dev --projects=web,api --parallel",
+    "dev:web": "nx dev web",
+    "dev:api": "nx serve api",
+    "build": "nx run-many -t build --all",
+    "lint": "nx run-many -t lint --all",
+    "test": "nx run-many -t test --all",
+    "typecheck": "nx run-many -t typecheck --all",
+    "graph": "nx graph"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "nx": "^19.5.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
