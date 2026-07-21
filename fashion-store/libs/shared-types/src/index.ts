@@ -6,11 +6,15 @@ export interface Product {
   name: string;
   description: string;
   price: number;        // in minor units? here: whole euros
-  currency: 'EUR' | 'USD' | 'GBP';
+  currency: 'EUR' | 'USD' | 'GBP' | 'INR';
   images: string[];
   category: 'womenswear' | 'menswear' | 'accessories';
   tag?: 'New' | 'Limited' | 'Sale';
   featured: boolean;
+  /** This product's colourway, e.g. "Ivory". */
+  color?: string;
+  /** Sibling colourways of the same style (incl. self), for the PDP selector. */
+  colorways?: { color: string; slug: string }[];
   sizes: string[];
   inStock: boolean;
   createdAt: string;

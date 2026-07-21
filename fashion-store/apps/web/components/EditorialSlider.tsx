@@ -20,8 +20,7 @@ import { EDITORIAL, type EditorialSlide } from '@/lib/editorial';
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
-export function EditorialSlider() {
-  const slides = EDITORIAL;
+export function EditorialSlider({ slides = EDITORIAL }: { slides?: EditorialSlide[] } = {}) {
   const total = slides.length;
 
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -192,9 +191,10 @@ function Slide({ slide, priority }: { slide: EditorialSlide; priority: boolean }
   const reveal = (e: React.SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.parentElement?.classList.add('show');
   };
+  const href = /^(https?:|\/)/.test(slide.href) ? slide.href : `https://lassepedersen.biz/${slide.href}`;
   return (
     <figure className={`ed-slide bunk bunk-${slide.type}`} data-slide>
-      <Link href={`https://lassepedersen.biz/${slide.href}`} className="block h-full w-full">
+      <Link href={href} className="block h-full w-full">
         <div className="bunk-elements">
           {slide.images.map((im, k) => (
             <div

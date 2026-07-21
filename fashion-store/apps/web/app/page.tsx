@@ -2,17 +2,15 @@ import { collectionJsonLd } from '@/lib/seo';
 import { getFeaturedProducts } from '@/lib/products';
 
 /**
- * Homepage — renders the ORIGINAL theme verbatim.
+ * Homepage — the 2S Fashion editorial lookbook.
  *
- * `/public/lasse/index.html` is the old site's exact HTML, driven by its own
- * original stylesheet + script (loaded from lassepedersen.biz), so text, images
- * and every animation match 1:1 — nothing is re-implemented. To make it yours,
- * edit that file's slides (data-client / data-length / image URLs).
+ * Serves `/lasse-test/index.html`: the original theme engine rebranded to
+ * 2S Fashion (local patched `/lasse-test/scripts.min.js`) with our own product
+ * imagery. Edit that file to change slides/images. The untouched original is
+ * archived at `/homepage` for reference.
  *
- * Trade-off (deliberate, revisit before launch): the slider lives in an iframe,
- * so its content isn't crawlable and its internal nav links point at the old
- * site's routes. The React port (`components/EditorialSlider.tsx`) is kept as
- * the SEO-friendly replacement to swap back in once its motion is approved.
+ * Trade-off (revisit before launch): iframe content isn't crawlable; the React
+ * port (`components/EditorialSlider.tsx`) remains the SEO-friendly replacement.
  */
 export default async function HomePage() {
   const products = await getFeaturedProducts();
@@ -20,10 +18,10 @@ export default async function HomePage() {
   return (
     <>
       <main>
-        <h1 className="sr-only">ATELIER — Autumn / Winter 2026 collection lookbook</h1>
+        <h1 className="sr-only">2S Fashion — Modern Contemporary</h1>
         <iframe
-          src="/lasse/index.html"
-          title="Editorial lookbook"
+          src="/lasse-test/index.html"
+          title="2S Fashion editorial lookbook"
           className="fixed inset-0 h-full w-full border-0"
         />
       </main>

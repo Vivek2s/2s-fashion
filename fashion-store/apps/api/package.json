@@ -10,9 +10,11 @@
     "seed": "tsx src/seed.ts",
     "lint": "eslint src",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "upload-products": "tsx src/upload-products.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1091.0",
     "@fashion-store/shared-types": "*",
     "cors": "^2.8.5",
     "dotenv": "^16.4.0",

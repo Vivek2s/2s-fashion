@@ -22,10 +22,21 @@ const EDITORIAL = [
 const IMG = (id: string) => `https://images.unsplash.com/${id}?q=80&w=1200&auto=format&fit=crop`;
 const pickImg = (i: number) => IMG(EDITORIAL[((i % EDITORIAL.length) + EDITORIAL.length) % EDITORIAL.length]);
 
-export function EditorialGallery({ products }: { products: Product[] }) {
+export function EditorialGallery({
+  products,
+  brand = 'ATELIER',
+  subtitle = 'Autumn / Winter 2026 — Copenhagen',
+  firstImage,
+}: {
+  products: Product[];
+  brand?: string;
+  subtitle?: string;
+  /** Optional override for the first look's hero image (e.g. a local /public asset). */
+  firstImage?: string;
+}) {
   const looks = products.slice(0, 6);
   const panels: Panel[] = [
-    { kind: 'intro', title: 'ATELIER', subtitle: 'Autumn / Winter 2026 — Copenhagen' },
+    { kind: 'intro', title: brand, subtitle },
     ...looks.map((product): Panel => ({ kind: 'look', product })),
     {
       kind: 'outro',
@@ -171,7 +182,7 @@ export function EditorialGallery({ products }: { products: Product[] }) {
           {/* Left spacer so the intro brand sits centered at scroll 0 (desktop). */}
           <div className="hidden shrink-0 md:block md:w-[18vw]" aria-hidden />
           {panels.map((panel, i) => (
-            <PanelView key={i} panel={panel} index={i} total={total} />
+            <PanelView key={i} panel={panel} index={i} total={total} firstImage={firstImage} />
           ))}
           <div className="hidden shrink-0 md:block md:w-[12vw]" aria-hidden />
         </div>
@@ -190,7 +201,7 @@ export function EditorialGallery({ products }: { products: Product[] }) {
   );
 }
 
-function PanelView({ panel, index, total }: { panel: Panel; index: number; total: number }) {
+function PanelView({ panel, index, total, firstImage }: { panel: Panel; index: number; total: number; firstImage?: string }) {
   const num = String(index + 1).padStart(2, '0');
 
   if (panel.kind === 'intro') {
@@ -225,7 +236,8 @@ function PanelView({ panel, index, total }: { panel: Panel; index: number; total
   const p = panel.product;
   const types = ['a', 'b', 'c', 'd', 'e', 'f'] as const;
   const bt = types[(index - 1 + types.length) % types.length];
-  const main = pickImg(index * 3);
+  // First look uses the caller-supplied hero image (your own asset) if given.
+  const main = index === 1 && firstImage ? firstImage : pickImg(index * 3);
   const side1 = pickImg(index * 3 + 1);
   const side3 = pickImg(index * 3 + 2);
   const count = String(p.images.length).padStart(2, '0');

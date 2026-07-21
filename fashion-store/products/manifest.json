@@ -1,0 +1,87 @@
+{
+  "note": "Drop product photos in this folder and describe them here, then run: npm --workspace api run upload-products",
+  "products": [
+    {
+      "slug": "scarf-neck-wrap-blouse-ivory",
+      "name": "Draped Georgette Shirt",
+      "color": "Ivory",
+      "description": "A fluid wrap blouse with an attached scarf tie at the neck, cut from a soft satin with a deep drape front. Wear the scarf loose or knotted. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "ChatGPT Image Jul 21, 2026, 03_24_55 PM.png",
+        "ChatGPT Image Jul 21, 2026, 04_16_23 PM.png"
+      ]
+    },
+    {
+      "slug": "scarf-neck-wrap-blouse-black",
+      "name": "Draped Georgette Shirt",
+      "color": "Black",
+      "description": "A sheer chiffon wrap blouse with an attached scarf tie at the neck and a deep drape front. Wear the scarf loose or knotted. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "ChatGPT Image Jul 21, 2026, 04_15_47 PM.png"
+      ]
+    },
+    {
+      "slug": "scarf-neck-wrap-blouse-plum",
+      "name": "Draped Georgette Shirt",
+      "color": "Plum",
+      "description": "A sheer chiffon wrap blouse with an attached scarf tie at the neck and a deep drape front, in a deep plum. Wear the scarf loose or knotted. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": false,
+      "images": [
+        "ChatGPT Image Jul 21, 2026, 04_16_27 PM.png"
+      ]
+    },
+    {
+      "slug": "serein-satin-shirt",
+      "name": "Serein Satin Shirt",
+      "color": "Off White",
+      "description": "A fluid satin shirt designed for modern elegance, effortless sensuality, and timeless evening dressing. Deep cowl drape, relaxed through the body.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "cowl-2.png",
+        "cowl-1.png",
+        "cowl-3.png"
+      ]
+    }
+  ]
+}

@@ -2,16 +2,16 @@ import type { Metadata } from 'next';
 import type { Product } from '@fashion-store/shared-types';
 
 export const SITE = {
-  name: 'ATELIER',
+  name: '2S Fashion',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000',
   description:
-    'ATELIER is a Copenhagen fashion house. Explore the new season collection: minimal, considered, made to last.',
-  locale: 'en_US',
+    '2S Fashion is a modern contemporary menswear label from India. Shop draped georgette and satin shirts — fluid silhouettes, considered tailoring, made to move.',
+  locale: 'en_IN',
 };
 
 /** Build per-page metadata with sane SEO defaults. */
 export function buildMetadata(overrides: Partial<Metadata> = {}): Metadata {
-  const title = (overrides.title as string) ?? `${SITE.name} — Modern Fashion, Copenhagen`;
+  const title = (overrides.title as string) ?? `${SITE.name} — Modern Contemporary Menswear`;
   return {
     metadataBase: new URL(SITE.url),
     title,

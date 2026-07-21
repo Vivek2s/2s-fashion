@@ -10,7 +10,7 @@ const productSchema = new Schema<ProductDoc>(
     name: { type: String, required: true },
     description: { type: String, default: '' },
     price: { type: Number, required: true },
-    currency: { type: String, enum: ['EUR', 'USD', 'GBP'], default: 'EUR' },
+    currency: { type: String, enum: ['EUR', 'USD', 'GBP', 'INR'], default: 'EUR' },
     images: { type: [String], default: [] },
     category: {
       type: String,
@@ -19,6 +19,8 @@ const productSchema = new Schema<ProductDoc>(
     },
     tag: { type: String, enum: ['New', 'Limited', 'Sale'] },
     featured: { type: Boolean, default: false, index: true },
+    color: { type: String },
+    colorways: { type: [{ color: String, slug: String, _id: false }], default: undefined },
     sizes: { type: [String], default: [] },
     inStock: { type: Boolean, default: true },
   },
