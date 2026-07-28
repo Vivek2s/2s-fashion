@@ -82,6 +82,306 @@
         "cowl-1.png",
         "cowl-3.png"
       ]
+    },
+    {
+      "slug": "shoulder-collar-utility-shirt-forest-green",
+      "name": "Shoulder Collar Utility Shirt",
+      "color": "Forest Green",
+      "description": "A structured utility shirt cut from premium Japanese fabric, with a layered shoulder collar, contrast piping and twin flap pockets. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "shoulder-collar-forest-green.png"
+      ]
+    },
+    {
+      "slug": "shoulder-collar-utility-shirt-indigo-blue",
+      "name": "Shoulder Collar Utility Shirt",
+      "color": "Indigo Blue",
+      "description": "A structured utility shirt cut from premium Japanese fabric, with a layered shoulder collar, contrast piping and twin flap pockets. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "shoulder-collar-indigo-blue.png"
+      ]
+    },
+    {
+      "slug": "shoulder-collar-utility-shirt-off-white",
+      "name": "Shoulder Collar Utility Shirt",
+      "color": "Off White",
+      "description": "A structured utility shirt cut from premium Japanese fabric, with a layered shoulder collar, contrast piping and twin flap pockets. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "shoulder-collar-off-white.png"
+      ]
+    },
+    {
+      "slug": "shoulder-collar-utility-shirt-dark-brown",
+      "name": "Shoulder Collar Utility Shirt",
+      "color": "Dark Brown",
+      "description": "A structured utility shirt cut from premium Japanese fabric, with a layered shoulder collar, contrast piping and twin flap pockets. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "shoulder-collar-dark-brown.png"
+      ]
+    },
+    {
+      "slug": "eclipse-collar-shirt-off-white",
+      "name": "Eclipse Collar Shirt",
+      "color": "Off White",
+      "description": "A fluid evening shirt with a deep eclipse collar that drapes into a crossover front. Cut for an easy, languid silhouette. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "eclipse-collar-off-white.png"
+      ]
+    },
+    {
+      "slug": "eclipse-collar-shirt-black",
+      "name": "Eclipse Collar Shirt",
+      "color": "Black",
+      "description": "A fluid evening shirt with a deep eclipse collar that drapes into a crossover front. Cut for an easy, languid silhouette. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "eclipse-collar-black.png"
+      ]
+    },
+    {
+      "slug": "eclipse-collar-shirt-salmon",
+      "name": "Eclipse Collar Shirt",
+      "color": "Salmon",
+      "description": "A fluid evening shirt with a deep eclipse collar that drapes into a crossover front. Cut for an easy, languid silhouette. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "eclipse-collar-salmon.png"
+      ]
+    },
+    {
+      "slug": "coastal-linen-shirt-light-blue",
+      "name": "Coastal Linen Shirt",
+      "color": "Light Blue",
+      "description": "A breezy shirt in airy crinkled linen — relaxed collar, patch pocket and an easy drape that keeps its cool. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "coastal-linen-light-blue.png"
+      ]
+    },
+    {
+      "slug": "coastal-linen-shirt-beige",
+      "name": "Coastal Linen Shirt",
+      "color": "Beige",
+      "description": "A breezy shirt in airy crinkled linen — relaxed collar, patch pocket and an easy drape that keeps its cool. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "coastal-linen-beige.png"
+      ]
+    },
+    {
+      "slug": "coastal-linen-shirt-off-white",
+      "name": "Coastal Linen Shirt",
+      "color": "Off White",
+      "description": "A breezy shirt in airy crinkled linen — relaxed collar, patch pocket and an easy drape that keeps its cool. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "coastal-linen-off-white.png"
+      ]
+    },
+    {
+      "slug": "coastal-linen-shirt-light-green",
+      "name": "Coastal Linen Shirt",
+      "color": "Light Green",
+      "description": "A breezy shirt in airy crinkled linen — relaxed collar, patch pocket and an easy drape that keeps its cool. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "coastal-linen-light-green.png"
+      ]
+    },
+    {
+      "slug": "harmony-block-shirt-light-blue",
+      "name": "Harmony Block Shirt",
+      "color": "Light Blue / Off White",
+      "description": "A two-tone block shirt in a textured weave — one half colour, one half off-white, split at the placket. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "harmony-block-light-blue.png"
+      ]
+    },
+    {
+      "slug": "harmony-block-shirt-beige",
+      "name": "Harmony Block Shirt",
+      "color": "Beige / Off White",
+      "description": "A two-tone block shirt in a textured weave — one half colour, one half off-white, split at the placket. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "harmony-block-beige.png"
+      ]
+    },
+    {
+      "slug": "harmony-block-shirt-light-salmon",
+      "name": "Harmony Block Shirt",
+      "color": "Light Salmon / Off White",
+      "description": "A two-tone block shirt in a textured weave — one half colour, one half off-white, split at the placket. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "harmony-block-light-salmon.png"
+      ]
+    },
+    {
+      "slug": "harmony-block-shirt-light-green",
+      "name": "Harmony Block Shirt",
+      "color": "Light Green / Off White",
+      "description": "A two-tone block shirt in a textured weave — one half colour, one half off-white, split at the placket. Modern contemporary tailoring by 2S Fashion.",
+      "price": 5999,
+      "currency": "INR",
+      "category": "menswear",
+      "tag": "New",
+      "featured": true,
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "inStock": true,
+      "images": [
+        "harmony-block-light-green.png"
+      ]
     }
   ]
 }

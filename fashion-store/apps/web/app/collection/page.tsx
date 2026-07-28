@@ -36,6 +36,42 @@ const CARDS = [
     image: '/collection/collection-2.png',
     href: '/product/serein-satin-shirt',
   },
+  {
+    number: '03',
+    title: 'Crest Collar Shirt',
+    description:
+      'A structured statement — layered crest collar, contrast piping, and utility pockets built for everyday edge.',
+    colors: 'Available in 4 colours',
+    image: '/collection/collection-3.png',
+    href: '/product/shoulder-collar-utility-shirt-forest-green',
+  },
+  {
+    number: '04',
+    title: 'Eclipse Collar Shirt',
+    description:
+      'A fluid evening shirt with a deep eclipse collar draping into a crossover front — languid, unhurried, quietly dramatic.',
+    colors: 'Available in 3 colours',
+    image: '/collection/collection-4.png',
+    href: '/product/eclipse-collar-shirt-off-white',
+  },
+  {
+    number: '05',
+    title: 'Coastal Linen Shirt',
+    description:
+      'Airy crinkled linen with a relaxed collar and an easy drape — the shirt that never tries too hard and always lands.',
+    colors: 'Available in 4 colours',
+    image: '/collection/collection-5.png',
+    href: '/product/coastal-linen-shirt-light-blue',
+  },
+  {
+    number: '06',
+    title: 'Harmony Block Shirt',
+    description:
+      'One half colour, one half off-white — a two-tone statement in a textured weave, split clean at the placket.',
+    colors: 'Available in 4 colour combinations',
+    image: '/collection/collection-6.png',
+    href: '/product/harmony-block-shirt-light-blue',
+  },
 ];
 
 export default function CollectionPage() {

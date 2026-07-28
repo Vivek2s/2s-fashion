@@ -1,7 +1,9 @@
 import type { Product } from '@fashion-store/shared-types';
 
 const IMG = (p: string) => `https://images.unsplash.com/${p}?q=80&w=1200&auto=format&fit=crop`;
-const API = process.env.NEXT_PUBLIC_API_URL;
+// Server-side fetches prefer the internal URL (same box, no public hop);
+// the public NEXT_PUBLIC_API_URL is what the browser uses (see lib/interests.ts).
+const API = process.env.API_URL_INTERNAL ?? process.env.NEXT_PUBLIC_API_URL;
 
 const base = [
   { slug: 'wool-overcoat', name: 'Wool Overcoat', price: 480, category: 'womenswear', tag: 'New', photo: 'photo-1591047139829-d91aecb6caea' },

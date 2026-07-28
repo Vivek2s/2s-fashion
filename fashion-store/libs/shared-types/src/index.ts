@@ -33,3 +33,22 @@ export interface ApiList<T> {
   data: T[];
   total: number;
 }
+
+/** A signed-in customer, keyed by their Firebase Auth UID. */
+export interface StoreUser {
+  id: string;
+  firebaseUid: string;
+  email?: string;
+  phone?: string;
+  displayName?: string;
+  photoURL?: string;
+  /** Sign-in method used, e.g. "google.com", "facebook.com", "phone". */
+  provider?: string;
+  createdAt: string;
+}
+
+/** Result of submitting a "Get in touch" interest for a product. */
+export interface InterestResult {
+  /** "created" on first submit, "exists" if this user already submitted. */
+  status: 'created' | 'exists';
+}

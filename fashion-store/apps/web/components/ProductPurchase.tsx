@@ -1,7 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { onAuthStateChanged, type User } from 'firebase/auth';
 import type { Product } from '@fashion-store/shared-types';
+import { firebaseAuth } from '@/lib/firebase';
+import { submitInterest } from '@/lib/interests';
+import { AuthModal } from './AuthModal';
 
 /** Indian size chart (garment measurements, inches). */
 const SIZE_GUIDE = [
@@ -10,18 +14,50 @@ const SIZE_GUIDE = [
   { size: 'L', chest: '42"', shoulder: '18"', length: '29"' },
 ];
 
+type SubmitState = 'idle' | 'submitting' | 'submitted' | 'already';
+
 export function ProductPurchase({ product }: { product: Product }) {
   const [size, setSize] = useState<string | null>(null);
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [guideOpen, setGuideOpen] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+  const [submitState, setSubmitState] = useState<SubmitState>('idle');
 
-  function onInterested() {
-    if (!size) { setError(true); return; }
-    setError(false);
-    setSent(true);
-    window.setTimeout(() => setSent(false), 2200);
+  useEffect(() => onAuthStateChanged(firebaseAuth, setUser), []);
+
+  const flipped = submitState === 'submitted' || submitState === 'already';
+
+  async function submit(signedInUser: User) {
+    setSubmitState('submitting');
+    try {
+      const result = await submitInterest(signedInUser, product.slug, size ?? undefined);
+      setSubmitState(result.status === 'exists' ? 'already' : 'submitted');
+    } catch {
+      setSubmitState('idle');
+      setError('Could not submit right now. Please try again.');
+    }
   }
+
+  function onGetInTouch() {
+    if (flipped || submitState === 'submitting') return;
+    if (!size) { setError('Please select a size.'); return; }
+    setError(null);
+    if (user) {
+      void submit(user);
+    } else {
+      setAuthOpen(true);
+    }
+  }
+
+  function onAuthSuccess(signedInUser: User) {
+    setAuthOpen(false);
+    setUser(signedInUser);
+    void submit(signedInUser);
+  }
+
+  const faceClass =
+    'absolute inset-0 flex items-center justify-center text-[12px] uppercase tracking-[0.22em] [backface-visibility:hidden]';
 
   return (
     <div>
@@ -45,7 +81,7 @@ export function ProductPurchase({ product }: { product: Product }) {
               type="button"
               role="radio"
               aria-checked={selected}
-              onClick={() => { setSize(s); setError(false); }}
+              onClick={() => { setSize(s); setError(null); }}
               className={`h-11 min-w-[3rem] px-3 text-sm uppercase tracking-wide transition-colors
                 ${selected ? 'border border-ink bg-ink text-white' : 'border border-line hover:border-ink'}`}
             >
@@ -56,19 +92,38 @@ export function ProductPurchase({ product }: { product: Product }) {
       </div>
 
       {error && (
-        <p className="mt-3 text-[12px] text-red-600" role="alert">Please select a size.</p>
+        <p className="mt-3 text-[12px] text-red-600" role="alert">{error}</p>
       )}
 
-      <button
-        type="button"
-        onClick={onInterested}
-        disabled={!product.inStock}
-        aria-live="polite"
-        className="mt-6 h-14 w-full bg-ink text-[12px] uppercase tracking-[0.22em] text-white
-          transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
-      >
-        {!product.inStock ? 'Out of stock' : sent ? 'Thank you ✓' : 'Interested'}
-      </button>
+      {/* Get in touch — flips over once the interest is recorded */}
+      <div className="mt-6 [perspective:900px]">
+        <button
+          type="button"
+          onClick={onGetInTouch}
+          disabled={!product.inStock || submitState === 'submitting'}
+          aria-live="polite"
+          className={`relative h-14 w-full [transform-style:preserve-3d]
+            transition-transform duration-700 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)]
+            disabled:cursor-not-allowed
+            ${flipped ? '[transform:rotateX(180deg)]' : ''}`}
+        >
+          <span className={`${faceClass} bg-ink text-white transition-opacity hover:opacity-90
+            ${!product.inStock ? 'opacity-40' : ''}`}>
+            {!product.inStock
+              ? 'Out of stock'
+              : submitState === 'submitting'
+                ? 'Sending…'
+                : 'Get in touch'}
+          </span>
+          <span className={`${faceClass} border border-ink bg-white text-ink [transform:rotateX(180deg)]`}>
+            {submitState === 'already' ? 'Already Submitted' : 'Submitted ✓'}
+          </span>
+        </button>
+      </div>
+
+      {authOpen && (
+        <AuthModal onClose={() => setAuthOpen(false)} onSuccess={onAuthSuccess} />
+      )}
 
       {/* Size guide modal — Indian sizes */}
       {guideOpen && (
