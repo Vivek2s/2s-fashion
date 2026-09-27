@@ -1,7 +1,10 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import './globals.css';
 import { buildMetadata, organizationJsonLd } from '@/lib/seo';
 import { SmoothScroll } from '@/components/SmoothScroll';
+import { MetaPixel } from '@/components/MetaPixel';
+import { FB_PIXEL_ID } from '@/lib/fbpixel';
 
 export const metadata: Metadata = buildMetadata();
 
@@ -18,6 +21,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
+        {/* useSearchParams needs a Suspense boundary or it opts the whole tree
+            out of static rendering — which SEO here depends on. */}
+        <Suspense fallback={null}>
+          <MetaPixel />
+        </Suspense>
+        <noscript>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            height="1"
+            width="1"
+            style={{ display: 'none' }}
+            alt=""
+            src={`https://www.facebook.com/tr?id=${FB_PIXEL_ID}&ev=PageView&noscript=1`}
+          />
+        </noscript>
         <SmoothScroll />
         {children}
         <script
