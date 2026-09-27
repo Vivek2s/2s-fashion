@@ -1,0 +1,12 @@
+{
+    "permissions": {
+      "allow": [
+        "Bash(aws ec2 allocate-address:*)",
+        "Bash(aws ec2 associate-address:*)",
+        "Bash(aws ec2 describe-*:*)",
+        "Bash(aws route53 change-resource-record-sets:*)",
+        "Bash(aws route53 list-*:*)"
+      ]
+    }
+  }
+  
