@@ -8,6 +8,37 @@ import { getProductBySlug } from '@/lib/products';
 import { formatPrice } from '@/lib/format';
 import { buildMetadata, productJsonLd, breadcrumbJsonLd } from '@/lib/seo';
 
+/**
+ * Fabric copy per family, matched on a slug fragment. Both material tiers are
+ * described because "Luxury" / "Luxury Supreme" is the choice on the page.
+ */
+const FABRIC_INFO = [
+  {
+    match: ['serein-satin', 'eclipse-collar'],
+    info: {
+      luxury:
+        '100% Satin Silk — a fluid, lightweight weave with a soft lustrous face and a supple, liquid drape.',
+      luxurySupreme:
+        'Duchess Satin Silk — a denser, high-sheen weave with greater body and a refined, structured fall.',
+      care: 'Dry clean only. Cool iron on the reverse. Store hung, away from direct sunlight.',
+    },
+  },
+  {
+    match: ['coastal-linen', 'harmony-block'],
+    info: {
+      luxury:
+        '140 Lea Linen — a fine long-staple weave, breathable and crisp, that softens beautifully with wear.',
+      luxurySupreme:
+        '200 Lea Linen — an exceptionally fine lea count; lighter, smoother, with a subtle natural lustre.',
+      care: 'Dry clean only. Warm iron while slightly damp for a smooth finish. Natural creasing is part of the fabric\u2019s character.',
+    },
+  },
+];
+
+function fabricFor(slug: string) {
+  return FABRIC_INFO.find((f) => f.match.some((m) => slug.includes(m)))?.info ?? null;
+}
+
 type Params = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
@@ -28,6 +59,7 @@ export default async function ProductPage({ params }: Params) {
   if (!product) notFound();
 
   const colorways = product.colorways ?? [];
+  const fabric = fabricFor(product.slug);
 
   return (
     <>
@@ -54,45 +86,14 @@ export default async function ProductPage({ params }: Params) {
               {product.name}
             </h1>
             <p className="mt-2 text-lg">{formatPrice(product)}</p>
-            <p className="mt-1 text-[11px] uppercase tracking-[0.18em] text-muted">
-              MRP incl. of all taxes
-            </p>
 
-            {/* Colourways from DB */}
-            {colorways.length > 0 && (
-              <div className="mt-8 max-w-sm">
-                <div className="mb-2 text-[11px] uppercase tracking-[0.2em] text-muted">
-                  Colour
-                  {product.color ? (
-                    <span className="ml-2 normal-case tracking-normal text-ink">{product.color}</span>
-                  ) : null}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {colorways.map((cw) => {
-                    const selected = cw.slug === product.slug;
-                    return (
-                      <Link
-                        key={cw.slug}
-                        href={`/product/${cw.slug}`}
-                        aria-current={selected ? 'page' : undefined}
-                        className={`inline-flex h-11 items-center px-4 text-sm transition-colors
-                          ${selected ? 'border border-ink bg-ink text-white' : 'border border-line hover:border-ink'}`}
-                      >
-                        {cw.color}
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
 
-            {/* Availability from DB */}
-            <p className={`mt-6 text-[11px] uppercase tracking-[0.2em] ${product.inStock ? 'text-muted' : 'text-red-600'}`}>
-              {product.inStock ? 'In stock — ready to ship' : 'Currently unavailable'}
-            </p>
 
             <div className="mt-6 max-w-sm">
-              <ProductPurchase product={product} />
+              <ProductPurchase
+                product={{ name: product.name, sizes: product.sizes, slug: product.slug, color: product.color }}
+                colorways={colorways}
+              />
             </div>
 
             <p className="mt-8 max-w-sm text-sm leading-relaxed text-muted">{product.description}</p>
@@ -104,9 +105,17 @@ export default async function ProductPage({ params }: Params) {
                   Composition &amp; care
                   <span className="text-muted transition-transform group-open:rotate-45">+</span>
                 </summary>
-                <p className="pb-4 text-muted">
-                  Outer: 100% natural fibres. Dry clean only. Made responsibly.
-                </p>
+                {fabric ? (
+                  <div className="space-y-3 pb-4 text-muted">
+                    <p><span className="text-ink">Luxury</span> — {fabric.luxury}</p>
+                    <p><span className="text-ink">Luxury Supreme</span> — {fabric.luxurySupreme}</p>
+                    <p>{fabric.care}</p>
+                  </div>
+                ) : (
+                  <p className="pb-4 text-muted">
+                    Outer: 100% natural fibres. Dry clean only. Made responsibly.
+                  </p>
+                )}
               </details>
               <details className="group">
                 <summary className="flex cursor-pointer list-none items-center justify-between py-4
@@ -115,7 +124,8 @@ export default async function ProductPage({ params }: Params) {
                   <span className="text-muted transition-transform group-open:rotate-45">+</span>
                 </summary>
                 <p className="pb-4 text-muted">
-                  Free shipping over €200. Free returns within 30 days.
+                  Free shipping on orders over ₹5,000. Replacement and alteration
+                  within 10 days of delivery.
                 </p>
               </details>
             </div>

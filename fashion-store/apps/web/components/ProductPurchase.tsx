@@ -1,11 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { onAuthStateChanged, type User } from 'firebase/auth';
-import type { Product } from '@fashion-store/shared-types';
-import { firebaseAuth } from '@/lib/firebase';
-import { submitInterest } from '@/lib/interests';
-import { AuthModal } from './AuthModal';
+import { useState } from 'react';
+import Link from 'next/link';
+import { track } from '@/lib/analytics';
 
 /** Indian size chart (garment measurements, inches). */
 const SIZE_GUIDE = [
@@ -14,58 +11,125 @@ const SIZE_GUIDE = [
   { size: 'L', chest: '42"', shoulder: '18"', length: '29"' },
 ];
 
-type SubmitState = 'idle' | 'submitting' | 'submitted' | 'already';
+const MATERIALS = ['Luxury', 'Luxury Supreme'];
 
-export function ProductPurchase({ product }: { product: Product }) {
+/** The storefront's WhatsApp line — orders are placed as a chat, not a cart. */
+const WHATSAPP_NUMBER = '918264396542';
+
+type Colorway = { slug: string; color?: string };
+
+type PurchaseProduct = {
+  name: string;
+  sizes: string[];
+  slug: string;
+  color?: string;
+};
+
+export function ProductPurchase({
+  product,
+  colorways = [],
+}: {
+  product: PurchaseProduct;
+  colorways?: Colorway[];
+}) {
+  const [material, setMaterial] = useState<string | null>(null);
   const [size, setSize] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const [guideOpen, setGuideOpen] = useState(false);
-  const [authOpen, setAuthOpen] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-  const [submitState, setSubmitState] = useState<SubmitState>('idle');
 
-  useEffect(() => onAuthStateChanged(firebaseAuth, setUser), []);
+  const chipClass = (selected: boolean) =>
+    selected ? 'border border-ink bg-ink text-white' : 'border border-line hover:border-ink';
 
-  const flipped = submitState === 'submitted' || submitState === 'already';
+  /**
+   * There is no checkout — "Order Now" hands the selection to WhatsApp as a
+   * prefilled message, so the customer only has to hit send.
+   */
+  function onOrderNow() {
+    track('order_now', { product: product.name, slug: product.slug, material, size });
 
-  async function submit(signedInUser: User) {
-    setSubmitState('submitting');
-    try {
-      const result = await submitInterest(signedInUser, product.slug, size ?? undefined);
-      setSubmitState(result.status === 'exists' ? 'already' : 'submitted');
-    } catch {
-      setSubmitState('idle');
-      setError('Could not submit right now. Please try again.');
-    }
+    const url = window.location.href;
+    const lines = [
+      'Hello 2S Fashion 👋',
+      '',
+      "I'd like to order this piece:",
+      '',
+      `*${product.name}*`,
+      ...(material ? [`Material: ${material}`] : []),
+      ...(size ? [`Size: ${size}`] : []),
+      '',
+      url,
+    ];
+    const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`;
+    window.open(href, '_blank', 'noopener,noreferrer');
   }
-
-  function onGetInTouch() {
-    if (flipped || submitState === 'submitting') return;
-    if (!size) { setError('Please select a size.'); return; }
-    setError(null);
-    if (user) {
-      void submit(user);
-    } else {
-      setAuthOpen(true);
-    }
-  }
-
-  function onAuthSuccess(signedInUser: User) {
-    setAuthOpen(false);
-    setUser(signedInUser);
-    void submit(signedInUser);
-  }
-
-  const faceClass =
-    'absolute inset-0 flex items-center justify-center text-[12px] uppercase tracking-[0.22em] [backface-visibility:hidden]';
 
   return (
     <div>
-      <div className="mb-2 flex items-baseline justify-between">
+      <div className="mb-2 text-[11px] uppercase tracking-[0.2em] text-muted">Material</div>
+      <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Select a material">
+        {MATERIALS.map((m) => {
+          const selected = m === material;
+          return (
+            <button
+              key={m}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              onClick={() => {
+                setMaterial(m);
+                track('select_material', { product: product.name, slug: product.slug, material: m });
+              }}
+              className={`inline-flex h-11 items-center px-4 text-sm transition-colors
+                ${chipClass(selected)}`}
+            >
+              {m}
+            </button>
+          );
+        })}
+      </div>
+
+      {colorways.length > 0 && (
+        <div className="mt-8">
+          <div className="mb-2 text-[11px] uppercase tracking-[0.2em] text-muted">
+            Colour
+            {product.color ? (
+              <span className="ml-2 normal-case tracking-normal text-ink">{product.color}</span>
+            ) : null}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {colorways.map((cw) => {
+              const selected = cw.slug === product.slug;
+              return (
+                <Link
+                  key={cw.slug}
+                  href={`/product/${cw.slug}`}
+                  onClick={() =>
+                    track('select_colorway', {
+                      product: product.name,
+                      from_slug: product.slug,
+                      to_slug: cw.slug,
+                      color: cw.color,
+                    })
+                  }
+                  aria-current={selected ? 'page' : undefined}
+                  className={`inline-flex h-11 items-center px-4 text-sm transition-colors
+                    ${chipClass(selected)}`}
+                >
+                  {cw.color}
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <div className="mb-2 mt-8 flex items-baseline justify-between">
         <span className="text-[11px] uppercase tracking-[0.2em] text-muted">Size</span>
         <button
           type="button"
-          onClick={() => setGuideOpen(true)}
+          onClick={() => {
+            setGuideOpen(true);
+            track('size_guide_open', { product: product.name, slug: product.slug });
+          }}
           className="text-[11px] uppercase tracking-[0.2em] text-muted underline underline-offset-4 hover:text-ink"
         >
           Size guide
@@ -81,9 +145,12 @@ export function ProductPurchase({ product }: { product: Product }) {
               type="button"
               role="radio"
               aria-checked={selected}
-              onClick={() => { setSize(s); setError(null); }}
+              onClick={() => {
+                setSize(s);
+                track('select_size', { product: product.name, slug: product.slug, size: s });
+              }}
               className={`h-11 min-w-[3rem] px-3 text-sm uppercase tracking-wide transition-colors
-                ${selected ? 'border border-ink bg-ink text-white' : 'border border-line hover:border-ink'}`}
+                ${chipClass(selected)}`}
             >
               {s}
             </button>
@@ -91,39 +158,16 @@ export function ProductPurchase({ product }: { product: Product }) {
         })}
       </div>
 
-      {error && (
-        <p className="mt-3 text-[12px] text-red-600" role="alert">{error}</p>
-      )}
-
-      {/* Get in touch — flips over once the interest is recorded */}
-      <div className="mt-6 [perspective:900px]">
+      <div className="mt-6">
         <button
           type="button"
-          onClick={onGetInTouch}
-          disabled={!product.inStock || submitState === 'submitting'}
-          aria-live="polite"
-          className={`relative h-14 w-full [transform-style:preserve-3d]
-            transition-transform duration-700 [transition-timing-function:cubic-bezier(0.16,1,0.3,1)]
-            disabled:cursor-not-allowed
-            ${flipped ? '[transform:rotateX(180deg)]' : ''}`}
+          onClick={onOrderNow}
+          className="flex h-14 w-full items-center justify-center bg-ink text-[12px] uppercase
+            tracking-[0.22em] text-white transition-opacity hover:opacity-90"
         >
-          <span className={`${faceClass} bg-ink text-white transition-opacity hover:opacity-90
-            ${!product.inStock ? 'opacity-40' : ''}`}>
-            {!product.inStock
-              ? 'Out of stock'
-              : submitState === 'submitting'
-                ? 'Sending…'
-                : 'Get in touch'}
-          </span>
-          <span className={`${faceClass} border border-ink bg-white text-ink [transform:rotateX(180deg)]`}>
-            {submitState === 'already' ? 'Already Submitted' : 'Submitted ✓'}
-          </span>
+          Order Now
         </button>
       </div>
-
-      {authOpen && (
-        <AuthModal onClose={() => setAuthOpen(false)} onSuccess={onAuthSuccess} />
-      )}
 
       {/* Size guide modal — Indian sizes */}
       {guideOpen && (
@@ -134,10 +178,7 @@ export function ProductPurchase({ product }: { product: Product }) {
           aria-label="Size guide"
           onClick={() => setGuideOpen(false)}
         >
-          <div
-            className="w-full max-w-md bg-white p-6 sm:p-8"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="w-full max-w-md bg-white p-6 sm:p-8" onClick={(e) => e.stopPropagation()}>
             <div className="mb-6 flex items-start justify-between">
               <div>
                 <h2 className="font-serif text-xl">Size guide</h2>
